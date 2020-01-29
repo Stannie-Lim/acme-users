@@ -11,15 +11,10 @@
                 font-size: 3rem;
                 padding: 1rem;
             }
-            .navbar > ul {
-                display: flex;
-                justify-content: space-around;
-                font-size: 1.5rem;
-            }
+
             ul {
                 display: flex;
                 list-style-type: none;
-                justify-content: space-between;
             }
             ul.information {
                 background-color: dodgerblue;
@@ -33,11 +28,12 @@
             }
             ul.people {
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
                 border-bottom: 1px solid black;
+                
             }
             ul.people > li.person {
-                font-size: 1.5rem;
+                font-size: 1rem;
                 padding: 1.5rem;
                 width: 100vw;
             }
@@ -45,11 +41,18 @@
                 padding: 0;
                 margin: 0;
             }
-
+            .page {
+                display: flex;
+                justify-content: space-around;
+            }
         </style>
     </head>
     <body>
         <h1>Acme Users</h1>
+
+        <ul class="page">
+            
+        </ul>
 
         <ul class="information">
             <li>First Name</li>
@@ -59,16 +62,91 @@
         </ul>
 
         <div class="listOfPeople">
-
+        
         </div>
 
         <script>
             const list = document.querySelector(".listOfPeople");
-            const add = document.querySelector("button");
+            const page = document.querySelector(".page");
 
-            const people = [];
+            window.addEventListener('hashchange', () => {
+                // const target = ev.target;
+                const pageNumber = window.location.hash.slice(1);
+                console.log(pageNumber);
 
-            const render = () => {
+                fetch(`https://acme-users-api-rev.herokuapp.com/api/users/${pageNumber}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        // console.log(result);
+                        renderPeople(result);
+                    })
+            })
+
+            // fetch(`https://acme-users-api-rev.herokuapp.com/api/users/#${1}`)
+            //         .then(response => response.json())
+            //         .then(result => {
+            //             console.log(result);
+            //         })
+            
+            // const renderPageNums = (results) => {
+            //     const numOfPages = Math.ceil(results.count / 50);
+                
+            //     for(let i = 0; i < numOfPages; i++) {
+            //         pageAnchor.push(i + 1);
+            //     }
+            //     const p1 = pageAnchor.map(num => {
+            //         return `<li><a href="/acme-users/index.html#${num - 1}">${num}</a></li>`;
+            //     }).join('');
+            //     page.innerHTML = p1;
+            // }
+
+            let people = [];
+            const pageAnchor = [];
+
+
+            fetch('https://acme-users-api-rev.herokuapp.com/api/users/')
+                .then(response => response.json())
+                .then(result => renderPeople(result))
+
+            fetch(`https://acme-users-api-rev.herokuapp.com/api/users/`)
+                .then(response => response.json())
+                .then(result => {
+                    const numOfPages = Math.ceil(result.count / 50);
+                    for(let i = 0; i < numOfPages; i++) {
+                        pageAnchor.push(i + 1);
+                    }
+                    const p1 = pageAnchor.map(num => {
+                        return `<li><a href="/acme-users/index.html#${num - 1}">${num}</a></li>`;
+                    }).join('');
+                    page.innerHTML = p1;
+
+                })
+
+
+            function renderPeople(results) {
+                // console.log(results);
+                
+                //page.innerHTML = pages;
+                //return `<li><a href="">${i + 1}</a></li>`
+                const users = results.users;
+                // console.log(users);
+                people = [];
+                for(let i = 0; i < users.length; i++) {
+                    people.push({
+                        firstName: users[i].firstName,
+                        lastName: users[i].lastName,
+                        email: users[i].email,
+                        title: users[i].title
+                    });
+                }
+                // const numOfPages;
+                //console.log(people);
+                // people.push({
+                //     firstName: results.users.firstName,
+                //     lastName: results.users.lastName,
+                //     email: results.users.email,
+                //     title: results.users.title
+                // });
                 const html = people.map(person => {
                     return `<ul class="people"> 
                         <li class="person">${person.firstName}</li>
@@ -78,7 +156,7 @@
                     </ul>`;
                 }).join('');
                 list.innerHTML = html;
-            };
+            }
 
         </script>
 
