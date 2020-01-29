@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <style>
+            body {
+                font-family: verdana;
+                background-color: lightgrey;
+                padding: 0;
+                margin: 0;
+            } 
+            h1 {
+                font-size: 3rem;
+                padding: 1rem;
+            }
+            .navbar > ul {
+                display: flex;
+                justify-content: space-around;
+                font-size: 1.5rem;
+            }
+            ul {
+                display: flex;
+                list-style-type: none;
+                justify-content: space-between;
+            }
+            ul.information {
+                background-color: dodgerblue;
+            }
+            ul.information > li {
+                font-weight: bold;
+                font-size: 1.5rem;
+                color: white;
+                padding: 1.5rem;
+                width: 100vw;
+            }
+            ul.people {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid black;
+            }
+            ul.people > li.person {
+                font-size: 1.5rem;
+                padding: 1.5rem;
+                width: 100vw;
+            }
+            ul.people, ul.information {
+                padding: 0;
+                margin: 0;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>Acme Users</h1>
+
+        <ul class="information">
+            <li>First Name</li>
+            <li>Last Name</li>
+            <li>Email</li>
+            <li>Title</li>
+        </ul>
+
+        <div class="listOfPeople">
+
+        </div>
+
+        <script>
+            const list = document.querySelector(".listOfPeople");
+            const add = document.querySelector("button");
+
+            const people = [];
+
+            const render = () => {
+                const html = people.map(person => {
+                    return `<ul class="people"> 
+                        <li class="person">${person.firstName}</li>
+                        <li class="person">${person.lastName}</li>
+                        <li class="person">${person.email}</li>
+                        <li class="person">${person.title}</li>
+                    </ul>`;
+                }).join('');
+                list.innerHTML = html;
+            };
+
+        </script>
+
+    </body>
+</html>
