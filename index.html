@@ -11,7 +11,6 @@
                 font-size: 3rem;
                 padding: 1rem;
             }
-
             ul {
                 display: flex;
                 list-style-type: none;
@@ -30,7 +29,6 @@
                 display: flex;
                 justify-content: flex-start;
                 border-bottom: 1px solid black;
-                
             }
             ul.people > li.person {
                 font-size: 1rem;
@@ -49,31 +47,23 @@
     </head>
     <body>
         <h1>Acme Users</h1>
-
         <ul class="page">
-            
         </ul>
-
         <ul class="information">
             <li>First Name</li>
             <li>Last Name</li>
             <li>Email</li>
             <li>Title</li>
         </ul>
-
         <div class="listOfPeople">
-        
         </div>
-
         <script>
             const list = document.querySelector(".listOfPeople");
             const page = document.querySelector(".page");
-
             window.addEventListener('hashchange', () => {
                 // const target = ev.target;
                 const pageNumber = window.location.hash.slice(1);
                 console.log(pageNumber);
-
                 fetch(`https://acme-users-api-rev.herokuapp.com/api/users/${pageNumber}`)
                     .then(response => response.json())
                     .then(result => {
@@ -81,16 +71,13 @@
                         renderPeople(result);
                     })
             })
-
             // fetch(`https://acme-users-api-rev.herokuapp.com/api/users/#${1}`)
             //         .then(response => response.json())
             //         .then(result => {
             //             console.log(result);
             //         })
-            
             // const renderPageNums = (results) => {
             //     const numOfPages = Math.ceil(results.count / 50);
-                
             //     for(let i = 0; i < numOfPages; i++) {
             //         pageAnchor.push(i + 1);
             //     }
@@ -99,15 +86,11 @@
             //     }).join('');
             //     page.innerHTML = p1;
             // }
-
             let people = [];
             const pageAnchor = [];
-
-
             fetch('https://acme-users-api-rev.herokuapp.com/api/users/')
                 .then(response => response.json())
                 .then(result => renderPeople(result))
-
             fetch(`https://acme-users-api-rev.herokuapp.com/api/users/`)
                 .then(response => response.json())
                 .then(result => {
@@ -119,13 +102,9 @@
                         return `<li><a href="/acme-users/index.html#${num - 1}">${num}</a></li>`;
                     }).join('');
                     page.innerHTML = p1;
-
                 })
-
-
             function renderPeople(results) {
                 // console.log(results);
-                
                 //page.innerHTML = pages;
                 //return `<li><a href="">${i + 1}</a></li>`
                 const users = results.users;
@@ -157,8 +136,6 @@
                 }).join('');
                 list.innerHTML = html;
             }
-
         </script>
-
     </body>
 </html>
