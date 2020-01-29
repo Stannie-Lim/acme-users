@@ -63,14 +63,44 @@
             window.addEventListener('hashchange', () => {
                 // const target = ev.target;
                 const pageNumber = window.location.hash.slice(1);
-                console.log(pageNumber);
                 fetch(`https://acme-users-api-rev.herokuapp.com/api/users/${pageNumber}`)
                     .then(response => response.json())
                     .then(result => {
                         // console.log(result);
                         renderPeople(result);
-                    })
+                    });
             })
+
+
+
+
+
+            
+
+            /*
+                add this function to make it refresh
+                yet still show correct results!!!!!
+            */
+            const pageNumber = window.location.hash.slice(1);
+            if(pageNumber) {
+                fetch(`https://acme-users-api-rev.herokuapp.com/api/users/${pageNumber}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        // console.log(result);
+                        renderPeople(result);
+                    });
+            }
+
+
+
+
+
+
+
+
+
+
+            
             // fetch(`https://acme-users-api-rev.herokuapp.com/api/users/#${1}`)
             //         .then(response => response.json())
             //         .then(result => {
@@ -99,7 +129,7 @@
                         pageAnchor.push(i + 1);
                     }
                     const p1 = pageAnchor.map(num => {
-                        return `<li><a href="/acme-users/index.html#${num - 1}">${num}</a></li>`;
+                        return `<li><a href="file:///home/stannie/Documents/Fullstack/fetch/api/index.html#${num - 1}">${num}</a></li>`;
                     }).join('');
                     page.innerHTML = p1;
                 })
